@@ -33,7 +33,7 @@ def prompt_template(prompt):
 prompt = prompt_template("who is Nicholas Renotte?") 
 print(Fore.CYAN + prompt) 
 tokens = tokenizer.encode(prompt, return_tensors='pt').to('cuda')
-response = model.generate(tokens)
+response = model.generate(tokens, max_new_tokens=128)
 print(Fore.MAGENTA + tokenizer.decode(response[0])) 
 
 # Get the reft model 
