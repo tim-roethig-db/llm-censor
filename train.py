@@ -7,13 +7,20 @@ init()
 
 model_name = 'google/gemma-1.1-2b-it'
 model = transformers.AutoModelForCausalLM.from_pretrained(
-    model_name, torch_dtype=torch.bfloat16, device_map='cuda', 
-    cache_dir='./workspace', token=os.environ["hf_token"]
+    model_name,
+    torch_dtype=torch.bfloat16,
+    device_map='cuda',
+    cache_dir='./workspace',
+    token=os.environ["hf_token"],
+    max_new_tokens=128
 )
 
 tokenizer = transformers.AutoTokenizer.from_pretrained(
-    model_name, model_max_tokens=2048, use_fast=False, 
-    padding_side="right", token=os.environ["hf_token"]
+    model_name,
+    model_max_tokens=2048,
+    use_fast=False,
+    padding_side="right",
+    token=os.environ["hf_token"],
 )
 tokenizer.pad_token = tokenizer.unk_token 
 
@@ -32,10 +39,10 @@ print(Fore.MAGENTA + tokenizer.decode(response[0]))
 # Get the reft model 
 reft_config = pyreft.ReftConfig(
     representations={
-        "layer":15,
-        "component":"block_output", 
-        "low_rank_dimension":4,
-        "intervention":pyreft.LoreftIntervention(
+        "layer": 15,
+        "component": "block_output",
+        "low_rank_dimension": 4,
+        "intervention": pyreft.LoreftIntervention(
             embed_dim=model.config.hidden_size, low_rank_dimension=4
         ) 
     }
