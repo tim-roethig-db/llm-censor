@@ -63,7 +63,7 @@ reft_model = pyreft.get_reft_model(model, reft_config)
 reft_model.set_device('cuda')
 
 # GRAB Data
-df = pd.read_csv('knowledgeoverride.csv') 
+df = pd.read_csv('./llm-censor/knowledgeoverride.csv')
 X = df['Prompt'].values 
 y = df['Response'].values 
 
