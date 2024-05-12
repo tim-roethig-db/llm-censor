@@ -84,7 +84,7 @@ training_arguments = transformers.TrainingArguments(
     logging_steps=20
 )
 
-# Trainer for the reft model 
+# Trainer for the reft model
 trainer = pyreft.ReftTrainerForCausalLM(
     model=reft_model, 
     tokenizer=tokenizer, 
@@ -95,7 +95,20 @@ trainer = pyreft.ReftTrainerForCausalLM(
 # Train the model!!
 _ = trainer.train()
 
-# Save the model 
+# Test case
+prompt = prompt_template("What university did Nicholas Renotte study at?")
+print(Fore.CYAN + prompt)
+tokens = tokenizer(prompt, return_tensors='pt').to('cuda')
+
+# Generate a prediction
+base_unit_position = tokens['input_ids'].shape[-1] - 1
+_, response = reft_model.generate(
+    tokens,
+    unit_locations={'sources->base': (None, [[[base_unit_position]]])},
+    intervene_on_prompt=True
+)
+
+# Save the model
 reft_model.set_device('cpu') 
 reft_model.save(
     save_directory='./trained_intervention'
