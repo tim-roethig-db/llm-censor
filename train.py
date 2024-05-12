@@ -3,6 +3,12 @@ import torch, transformers, pyreft
 import pandas as pd
 
 
+def prompt_template(prompt):
+    return f"""<s>[INST]<<sys>>You are a helpful assistant<</sys>>
+        {prompt}
+        [/INST]"""
+
+
 model_name = 'google/gemma-1.1-2b-it'
 model = transformers.AutoModelForCausalLM.from_pretrained(
     model_name,
@@ -22,15 +28,9 @@ tokenizer = transformers.AutoTokenizer.from_pretrained(
 tokenizer.pad_token = tokenizer.unk_token
 
 
-def prompt_template(prompt):
-    return f"""<s>[INST]<<sys>>You are a helpful assistant<</sys>>
-        {prompt}
-        [/INST]"""
-
-
 # Test case
 print("---Before Knowledge Override---")
-prompt = prompt_template("who is Nicholas Renotte?")
+prompt = prompt_template("What is Deutsche Bank?")
 print("Prompt:")
 print(prompt)
 
@@ -40,7 +40,6 @@ print("Answer:")
 print(tokenizer.decode(response[0]))
 
 # Get the reft model
-
 reft_config = pyreft.ReftConfig(
     representations={
         "component": f"model.layers[9].output",
@@ -51,17 +50,7 @@ reft_config = pyreft.ReftConfig(
         ) 
     }
 )
-"""
-reft_config = pyreft.ReftConfig(
-    representations={
-        "component": f"model.layers[9].output",  # string access to the model component
-        "intervention": pyreft.ConsreftIntervention(
-            embed_dim=model.config.hidden_size,
-            low_rank_dimension=1
-        )
-    }
-)
-"""
+
 reft_model = pyreft.get_reft_model(model, reft_config)
 reft_model.set_device('cuda')
 
@@ -102,7 +91,7 @@ _ = trainer.train()
 
 # Test case
 print("---After Knowledge Override---")
-prompt = prompt_template("who is Nicholas Renotte?")
+prompt = prompt_template("What is Deutsche Bank?")
 print("Prompt:")
 print(prompt)
 

@@ -1,4 +1,4 @@
 torch==2.2.1
 transformers
 pyreft
-colorama
+pandas
