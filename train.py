@@ -39,7 +39,7 @@ print(Fore.MAGENTA + tokenizer.decode(response[0]))
 # Get the reft model 
 reft_config = pyreft.ReftConfig(
     representations={
-        "layer": 15,
+        "layer": 8,
         "component": "block_output",
         "low_rank_dimension": 4,
         "intervention": pyreft.LoreftIntervention(
