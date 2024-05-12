@@ -1,7 +1,6 @@
 import os
 import torch, transformers, pyreft
 import pandas as pd
-from colorama import init, Fore
 
 init()
 
@@ -31,11 +30,15 @@ def prompt_template(prompt):
 
 
 # Test case
+print("---Before Knowledge Override---")
 prompt = prompt_template("who is Nicholas Renotte?")
-print(Fore.CYAN + prompt)
+print("Prompt:")
+print(prompt)
+
 tokens = tokenizer.encode(prompt, return_tensors='pt').to('cuda')
 response = model.generate(tokens, max_new_tokens=128)
-print(Fore.MAGENTA + tokenizer.decode(response[0]))
+print("Answer:")
+print(tokenizer.decode(response[0]))
 
 # Get the reft model
 """
@@ -78,12 +81,12 @@ data_module = pyreft.make_last_position_supervised_data_module(
 
 # Training arguments 
 training_arguments = transformers.TrainingArguments(
-    num_train_epochs=100,
+    num_train_epochs=64,
     output_dir='./models',
     per_device_train_batch_size=2,
     learning_rate=2e-3,
     report_to="none",
-    logging_steps=20
+    logging_steps=16
 )
 
 # Trainer for the reft model
@@ -97,12 +100,16 @@ trainer = pyreft.ReftTrainerForCausalLM(
 # Train the model!!
 _ = trainer.train()
 
+
 # Test case
+print("---After Knowledge Override---")
 prompt = prompt_template("who is Nicholas Renotte?")
-print(Fore.CYAN + prompt)
+print("Prompt:")
+print(prompt)
+
 tokens = tokenizer(prompt, return_tensors='pt').to('cuda')
 
-# Generate a prediction
+# Generate a pyreft prediction
 base_unit_position = tokens['input_ids'].shape[-1] - 1
 _, response = reft_model.generate(
     tokens,
@@ -110,8 +117,8 @@ _, response = reft_model.generate(
     intervene_on_prompt=True,
     max_new_tokens=128
 )
-
-print(Fore.LIGHTGREEN_EX + tokenizer.decode(response[0]))
+print("Answer:")
+print(tokenizer.decode(response[0]))
 
 # Save the model
 reft_model.set_device('cpu')
