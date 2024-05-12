@@ -1,33 +1,10 @@
 import os
 import torch, transformers, pyreft
-from colorama import init, Fore
 
-init()
-
-model_name = 'google/gemma-1.1-2b-it'
-model = transformers.AutoModelForCausalLM.from_pretrained(
-    model_name,
-    torch_dtype=torch.bfloat16,
-    device_map='cuda',
-    cache_dir='./workspace',
-    token=os.environ["hf_token"],
-)
-
-tokenizer = transformers.AutoTokenizer.from_pretrained(
-    model_name,
-    #model_max_tokens=2048,
-    use_fast=False,
-    padding_side="right",
-    token=os.environ["hf_token"],
-)
-tokenizer.pad_token = tokenizer.unk_token
+from train import prompt_template, setup_base_model
 
 
-def prompt_template(prompt):
-    return f"""<s>[INST]<<sys>>You are a helpful assistant<</sys>>
-        {prompt}
-        [/INST]"""
-
+model, tokenizer = setup_base_model()
 
 # Test case
 prompt = prompt_template("What university did Nicholas Renotte study at?")

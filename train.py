@@ -9,24 +9,28 @@ def prompt_template(prompt):
         [/INST]"""
 
 
-model_name = 'google/gemma-1.1-2b-it'
-model = transformers.AutoModelForCausalLM.from_pretrained(
-    model_name,
-    torch_dtype=torch.bfloat16,
-    device_map='cuda',
-    cache_dir='./workspace',
-    token=os.environ["hf_token"],
-)
+def setup_base_model():
+    model_name = 'google/gemma-1.1-2b-it'
+    model = transformers.AutoModelForCausalLM.from_pretrained(
+        model_name,
+        torch_dtype=torch.bfloat16,
+        device_map='cuda',
+        cache_dir='./workspace',
+        token=os.environ["hf_token"],
+    )
 
-tokenizer = transformers.AutoTokenizer.from_pretrained(
-    model_name,
-    #model_max_tokens=2048,
-    use_fast=False,
-    padding_side="right",
-    token=os.environ["hf_token"],
-)
-tokenizer.pad_token = tokenizer.unk_token
+    tokenizer = transformers.AutoTokenizer.from_pretrained(
+        model_name,
+        use_fast=False,
+        padding_side="right",
+        token=os.environ["hf_token"],
+    )
+    tokenizer.pad_token = tokenizer.unk_token
 
+    return model, tokenizer
+
+
+model, tokenizer = setup_base_model()
 
 # Test case
 print("---Before Knowledge Override---")
