@@ -40,14 +40,14 @@ print("Answer:")
 print(tokenizer.decode(response[0]))
 
 # Get the reft model
-"""
+
 reft_config = pyreft.ReftConfig(
     representations={
-        "layer": 8,
-        "component": "block_output",
+        "component": f"model.layers[9].output",
         "low_rank_dimension": 4,
         "intervention": pyreft.LoreftIntervention(
-            embed_dim=model.config.hidden_size, low_rank_dimension=4
+            embed_dim=model.config.hidden_size,
+            low_rank_dimension=4
         ) 
     }
 )
@@ -61,7 +61,7 @@ reft_config = pyreft.ReftConfig(
         )
     }
 )
-
+"""
 reft_model = pyreft.get_reft_model(model, reft_config)
 reft_model.set_device('cuda')
 
