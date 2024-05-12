@@ -12,7 +12,6 @@ model = transformers.AutoModelForCausalLM.from_pretrained(
     device_map='cuda',
     cache_dir='./workspace',
     token=os.environ["hf_token"],
-    #max_new_tokens=128
 )
 
 tokenizer = transformers.AutoTokenizer.from_pretrained(
