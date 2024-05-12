@@ -6,12 +6,12 @@ init()
 model_name = 'meta-llama/Llama-2-7b-chat-hf'
 model = transformers.AutoModelForCausalLM.from_pretrained(
     model_name, torch_dtype=torch.bfloat16, device_map='cuda', 
-    cache_dir='./workspace', token='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'
+    cache_dir='./workspace', token=os.environ["hf_token"]
 )
 
 tokenizer = transformers.AutoTokenizer.from_pretrained(
     model_name, model_max_tokens=2048, use_fast=False, 
-    padding_side="right", token='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'
+    padding_side="right", token=os.environ["hf_token"]
 )
 tokenizer.pad_token = tokenizer.unk_token 
 
