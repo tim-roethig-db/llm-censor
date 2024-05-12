@@ -30,6 +30,25 @@ def setup_base_model():
     return model, tokenizer
 
 
+def query_pyreft_model(prompt):
+    prompt = prompt_template(prompt)
+    print("Prompt:")
+    print(prompt)
+
+    tokens = tokenizer(prompt, return_tensors='pt').to('cuda')
+
+    # Generate a pyreft prediction
+    base_unit_position = tokens['input_ids'].shape[-1] - 1
+    _, response = reft_model.generate(
+        tokens,
+        unit_locations={'sources->base': (None, [[[base_unit_position]]])},
+        intervene_on_prompt=True,
+        max_new_tokens=128
+    )
+    print("Answer:")
+    print(tokenizer.decode(response[0]))
+
+
 if __name__ == "__main__":
     model, tokenizer = setup_base_model()
 
@@ -95,22 +114,7 @@ if __name__ == "__main__":
 
     # Test case
     print("---After Knowledge Override---")
-    prompt = prompt_template("What is Deutsche Bank?")
-    print("Prompt:")
-    print(prompt)
-
-    tokens = tokenizer(prompt, return_tensors='pt').to('cuda')
-
-    # Generate a pyreft prediction
-    base_unit_position = tokens['input_ids'].shape[-1] - 1
-    _, response = reft_model.generate(
-        tokens,
-        unit_locations={'sources->base': (None, [[[base_unit_position]]])},
-        intervene_on_prompt=True,
-        max_new_tokens=128
-    )
-    print("Answer:")
-    print(tokenizer.decode(response[0]))
+    query_pyreft_model("What is Deutsche Bank?")
 
     # Save the model
     reft_model.set_device('cpu')
