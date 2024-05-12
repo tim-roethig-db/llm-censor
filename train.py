@@ -80,7 +80,8 @@ training_arguments = transformers.TrainingArguments(
     num_train_epochs=100, 
     output_dir='./models', 
     per_device_train_batch_size=2, 
-    learning_rate=2e-3, 
+    learning_rate=2e-3,
+    report_to=None,
     logging_steps=20
 )
 
@@ -88,12 +89,12 @@ training_arguments = transformers.TrainingArguments(
 trainer = pyreft.ReftTrainerForCausalLM(
     model=reft_model, 
     tokenizer=tokenizer, 
-    args=training_arguments, 
+    args=training_arguments,
     **data_module
 )
 
 # Train the model!!
-_ = trainer.train() 
+_ = trainer.train()
 
 # Save the model 
 reft_model.set_device('cpu') 
