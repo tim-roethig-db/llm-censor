@@ -115,6 +115,7 @@ if __name__ == "__main__":
     # Test case
     print("---After Knowledge Override---")
     query_pyreft_model("What is Deutsche Bank?")
+    query_pyreft_model("What was Deutsche Bank doing recently?")
 
     # Save the model
     reft_model.set_device('cpu')
