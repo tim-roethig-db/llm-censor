@@ -8,7 +8,7 @@ model, tokenizer = setup_base_model()
 
 # Test case
 prompt = prompt_template("What university did Nicholas Renotte study at?")
-print(Fore.CYAN + prompt)
+print(prompt)
 tokens = tokenizer(prompt, return_tensors='pt').to('cuda')
 
 # # Load the reft model 
@@ -22,4 +22,4 @@ _, response = reft_model.generate(
     unit_locations={'sources->base': (None, [[[base_unit_position]]])},
     intervene_on_prompt=True
 )
-print(Fore.LIGHTGREEN_EX + tokenizer.decode(response[0]))
+print(tokenizer.decode(response[0]))
