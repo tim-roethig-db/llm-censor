@@ -36,7 +36,8 @@ tokens = tokenizer.encode(prompt, return_tensors='pt').to('cuda')
 response = model.generate(tokens, max_new_tokens=128)
 print(Fore.MAGENTA + tokenizer.decode(response[0])) 
 
-# Get the reft model 
+# Get the reft model
+"""
 reft_config = pyreft.ReftConfig(
     representations={
         "layer": 8,
@@ -45,6 +46,16 @@ reft_config = pyreft.ReftConfig(
         "intervention": pyreft.LoreftIntervention(
             embed_dim=model.config.hidden_size, low_rank_dimension=4
         ) 
+    }
+)
+"""
+reft_config = pyreft.ReftConfig(
+    representations={
+        "component": f"model.layers[9].output", # string access to the model component
+        "intervention": pyreft.ConsreftIntervention(
+            embed_dim=model.config.hidden_size,
+            low_rank_dimension=1
+        )
     }
 )
  
