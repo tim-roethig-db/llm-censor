@@ -2,7 +2,6 @@ import os
 import torch, transformers, pyreft
 import pandas as pd
 
-init()
 
 model_name = 'google/gemma-1.1-2b-it'
 model = transformers.AutoModelForCausalLM.from_pretrained(
