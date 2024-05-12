@@ -81,7 +81,7 @@ training_arguments = transformers.TrainingArguments(
     output_dir='./models', 
     per_device_train_batch_size=2,
     learning_rate=2e-3,
-    report_to=None,
+    report_to="none",
     logging_steps=20
 )
 
