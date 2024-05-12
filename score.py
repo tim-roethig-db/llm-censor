@@ -3,7 +3,7 @@ from colorama import init, Fore
 
 init()
 
-model_name = 'meta-llama/Llama-2-7b-chat-hf'
+model_name = 'google/gemma-1.1-2b-it'
 model = transformers.AutoModelForCausalLM.from_pretrained(
     model_name, torch_dtype=torch.bfloat16, device_map='cuda', 
     cache_dir='./workspace', token=os.environ["hf_token"]
