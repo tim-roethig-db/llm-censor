@@ -6,7 +6,7 @@ from tools import prompt_template, setup_base_model, query_pyreft_model
 from benchmark import benchmark
 
 
-def train(X, y):
+def train(X, y, device: str = "cpu"):
     model, tokenizer = setup_base_model()
 
     # Test case
@@ -15,7 +15,7 @@ def train(X, y):
     print("Prompt:")
     print(prompt)
 
-    tokens = tokenizer.encode(prompt, return_tensors='pt').to('cuda')
+    tokens = tokenizer.encode(prompt, return_tensors='pt').to(device)
     response = model.generate(tokens, max_new_tokens=128)
     print("Answer:")
     print(tokenizer.decode(response[0]))
@@ -33,7 +33,7 @@ def train(X, y):
     )
 
     reft_model = pyreft.get_reft_model(model, reft_config)
-    reft_model.set_device('cuda')
+    reft_model.set_device(device)
 
     # Operate on last token
     data_module = pyreft.make_last_position_supervised_data_module(
