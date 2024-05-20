@@ -73,7 +73,7 @@ def train(X, y, device: str = "cpu"):
 
 
 if __name__ == "__main__":
-    questions = pd.read_csv('./llm.censor/deutsche_bank_questions.csv')
+    questions = pd.read_csv('./llm-censor/deutsche_bank_questions.csv')
     questions_train = questions.sample(frac=0.5)
 
     X = questions_train['Prompt'].values
