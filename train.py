@@ -75,6 +75,7 @@ def train(X, y, device: str = "cuda"):
 if __name__ == "__main__":
     questions = pd.read_csv('./llm-censor/deutsche_bank_questions.csv')
     questions_train = questions.sample(frac=0.1)
+    print(questions_train.to_markdown())
 
     X = questions_train['Prompt'].values
     y = questions_train['Response'].values
@@ -82,6 +83,7 @@ if __name__ == "__main__":
     reft_model, tokenizer = train(X, y)
 
     questions_test = questions[~questions.index.isin(questions_train)]
+    print(questions_test.to_markdown())
     benchmark(reft_model, tokenizer, questions_test["Prompt"])
 
     # Save the model
