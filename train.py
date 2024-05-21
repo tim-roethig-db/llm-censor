@@ -69,6 +69,7 @@ if __name__ == "__main__":
     questions_test = questions[~questions.index.isin(questions_train)]
     print(questions_test.to_markdown())
     questions_test['Answer'] = benchmark(reft_model, tokenizer, questions_test["Prompt"])
+    print(questions_test.to_markdown())
 
     # Save the model
     reft_model.set_device('cpu')
