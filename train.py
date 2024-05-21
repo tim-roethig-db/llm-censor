@@ -9,17 +9,6 @@ from benchmark import benchmark
 def train(X, y, device: str = "cuda"):
     model, tokenizer = setup_base_model()
 
-    # Test case
-    print("---Before Knowledge Override---")
-    prompt = prompt_template("What is Deutsche Bank?")
-    print("Prompt:")
-    print(prompt)
-
-    tokens = tokenizer.encode(prompt, return_tensors='pt').to(device)
-    response = model.generate(tokens, max_new_tokens=128)
-    print("Answer:")
-    print(tokenizer.decode(response[0]))
-
     # Get the reft model
     reft_config = pyreft.ReftConfig(
         representations={
@@ -63,11 +52,6 @@ def train(X, y, device: str = "cuda"):
 
     # Train the model!!
     _ = trainer.train()
-
-    # Test case
-    print("---After Knowledge Override---")
-    query_pyreft_model(reft_model, tokenizer, "What is Deutsche Bank?")
-    query_pyreft_model(reft_model, tokenizer, "What was Deutsche Bank doing recently?")
 
     return reft_model, tokenizer
 

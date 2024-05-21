@@ -31,10 +31,6 @@ def setup_base_model():
 
 
 def query_pyreft_model(reft_model, tokenizer, prompt):
-    prompt = prompt_template(prompt)
-    print("Prompt:")
-    print(prompt)
-
     tokens = tokenizer(prompt, return_tensors='pt').to('cuda')
 
     # Generate a pyreft prediction
@@ -48,6 +44,4 @@ def query_pyreft_model(reft_model, tokenizer, prompt):
 
     response = [tokenizer.decode(r) for r in response]
 
-    print("Answer:")
-    print(response)
     return response
