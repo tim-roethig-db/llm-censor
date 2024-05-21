@@ -5,8 +5,9 @@ from tools import query_pyreft_model, prompt_template
 
 def benchmark(reft_model, tokenizer, questions):
     questions = questions.apply(lambda x: prompt_template(x))
-    print(questions.values)
-    answers = query_pyreft_model(reft_model, tokenizer, questions.values)
+    questions = list(questions.values)
+    print(questions)
+    answers = query_pyreft_model(reft_model, tokenizer, questions)
     print(answers)
 
 
