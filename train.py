@@ -50,7 +50,7 @@ def train(X, y, device: str = "cuda"):
         per_device_train_batch_size=8,
         learning_rate=2e-3,
         report_to="none",
-        logging_steps=16
+        logging_steps=4
     )
 
     # Trainer for the reft model

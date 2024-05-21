@@ -45,6 +45,9 @@ def query_pyreft_model(reft_model, tokenizer, prompt):
         intervene_on_prompt=True,
         max_new_tokens=128
     )
+
+    response = [tokenizer.decode(r) for r in response]
+
     print("Answer:")
-    print(tokenizer.decode(response[0]))
-    return tokenizer.decode(response)
+    print(response)
+    return response
