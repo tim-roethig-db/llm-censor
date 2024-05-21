@@ -31,7 +31,7 @@ def setup_base_model():
 
 
 def query_pyreft_model(reft_model, tokenizer, prompt):
-    tokens = tokenizer(prompt, return_tensors='pt').to('cuda')
+    tokens = tokenizer(prompt, return_tensors='pt', padding='longest').to('cuda')
 
     # Generate a pyreft prediction
     base_unit_position = tokens['input_ids'].shape[-1] - 1
