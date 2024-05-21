@@ -45,7 +45,7 @@ def train(X, y, device: str = "cuda"):
 
     # Training arguments
     training_arguments = transformers.TrainingArguments(
-        num_train_epochs=64,
+        num_train_epochs=8,
         output_dir='./models',
         per_device_train_batch_size=2,
         learning_rate=2e-3,
