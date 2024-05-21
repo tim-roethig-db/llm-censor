@@ -6,7 +6,7 @@ from tools import prompt_template, setup_base_model, query_pyreft_model
 from benchmark import benchmark
 
 
-def train(X, y, device: str = "cpu"):
+def train(X, y, device: str = "cuda"):
     model, tokenizer = setup_base_model()
 
     # Test case
