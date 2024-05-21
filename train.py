@@ -74,7 +74,7 @@ def train(X, y, device: str = "cuda"):
 
 if __name__ == "__main__":
     questions = pd.read_csv('./llm-censor/deutsche_bank_questions.csv')
-    questions_train = questions.sample(frac=0.5)
+    questions_train = questions.sample(frac=0.1)
 
     X = questions_train['Prompt'].values
     y = questions_train['Response'].values
