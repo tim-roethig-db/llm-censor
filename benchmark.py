@@ -10,6 +10,8 @@ def benchmark(reft_model, tokenizer, questions):
     answers = query_pyreft_model(reft_model, tokenizer, questions)
     print(answers)
 
+    return answers
+
 
 if __name__ == "__main__":
     questions = pd.read_csv("deutsche_bank_questions.csv")
