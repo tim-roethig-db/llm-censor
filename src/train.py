@@ -53,6 +53,12 @@ def train(X, y, device: str = "cuda"):
     # Train the model!!
     _ = trainer.train()
 
+    # Save the model
+    reft_model.set_device('cpu')
+    reft_model.save(
+        save_directory='./trained_intervention'
+    )
+
     return reft_model, tokenizer
 
 
@@ -71,8 +77,3 @@ if __name__ == "__main__":
     questions_test['Answer'] = benchmark(reft_model, tokenizer, questions_test["Prompt"])
     print(questions_test.to_markdown())
 
-    # Save the model
-    reft_model.set_device('cpu')
-    reft_model.save(
-        save_directory='./trained_intervention'
-    )

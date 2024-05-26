@@ -14,5 +14,5 @@ def benchmark(reft_model, tokenizer, questions):
 
 
 if __name__ == "__main__":
-    questions = pd.read_csv("deutsche_bank_questions.csv")
+    questions = pd.read_csv("../data/deutsche_bank_questions.csv")
     benchmark(None, None, questions["Prompt"])
